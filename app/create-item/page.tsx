@@ -37,7 +37,7 @@ export default function CreateItemPage() {
       <div className="container px-4 py-8 md:px-6 md:py-12">
         <div className="max-w-4xl mx-auto">
           <div className="flex flex-col gap-4 mb-8">
-            <h1 className="text-3xl font-bold font-poppins">Create Single Item</h1>
+            <h1 className="text-3xl font-bold font-poppins">Create Single Collectible</h1>
             <p className="text-white/70">Create and list your NFT for sale</p>
           </div>
 
@@ -49,11 +49,11 @@ export default function CreateItemPage() {
                 <p className="text-white/70 text-sm">
                   Supported file types: JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, GLTF. Max size: 100 MB
                 </p>
-                <div className="flex items-center justify-center border-2 border-dashed border-[#2A2A2A] rounded-xl h-80 relative overflow-hidden">
+                <div className="flex items-center justify-center border-2 border-dashed border-[#2A2A2A] rounded-xl h-80 relative overflow-hidden p-6">
                   {filePreview ? (
                     <Image src={filePreview || "/placeholder.svg"} alt="File preview" fill className="object-cover" />
                   ) : (
-                    <div className="flex flex-col items-center gap-4 text-white/70 p-6 text-center">
+                    <div className="flex flex-col items-center gap-4 text-white/70 text-center">
                       <Upload className="h-10 w-10" />
                       <div>
                         <p className="font-medium text-white mb-1">Drag and drop file</p>
@@ -85,9 +85,9 @@ export default function CreateItemPage() {
                       className="object-cover"
                     />
                   </div>
-                  <div className="p-4">
+                  <div className="p-4 space-y-2">
                     <h3 className="font-medium">Item Name</h3>
-                    <div className="flex items-center gap-2 mt-2">
+                    <div className="flex items-center gap-2">
                       <div className="w-6 h-6 rounded-full bg-[#2A2A2A]"></div>
                       <span className="text-sm text-white/70">@username</span>
                     </div>
@@ -97,11 +97,11 @@ export default function CreateItemPage() {
             </div>
 
             {/* Right Column - Details */}
-            <div className="lg:col-span-3 space-y-8">
+            <div className="lg:col-span-3 space-y-6">
               <div className="space-y-4">
                 <h2 className="text-xl font-medium">Item Details</h2>
 
-                <div className="space-y-2">
+                <div className="space-y-3">
                   <Label htmlFor="name">Name</Label>
                   <Input
                     id="name"
@@ -110,7 +110,7 @@ export default function CreateItemPage() {
                   />
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-3">
                   <Label htmlFor="description">Description</Label>
                   <Textarea
                     id="description"
@@ -119,7 +119,7 @@ export default function CreateItemPage() {
                   />
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-3">
                   <Label htmlFor="collection">Collection</Label>
                   <Select>
                     <SelectTrigger className="bg-[#1A1A1A] border-[#2A2A2A] focus:ring-primary">
@@ -135,7 +135,7 @@ export default function CreateItemPage() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     <Label htmlFor="category">Category</Label>
                     <Select>
                       <SelectTrigger className="bg-[#1A1A1A] border-[#2A2A2A] focus:ring-primary">
@@ -151,7 +151,7 @@ export default function CreateItemPage() {
                     </Select>
                   </div>
 
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     <Label htmlFor="blockchain">Blockchain</Label>
                     <Select defaultValue="ethereum">
                       <SelectTrigger className="bg-[#1A1A1A] border-[#2A2A2A] focus:ring-primary">
@@ -215,20 +215,20 @@ export default function CreateItemPage() {
                 <p className="text-white/70 text-sm">You'll receive bids on this item</p>
 
                 <Tabs defaultValue="fixed" onValueChange={(value) => setSaleType(value)}>
-                  <TabsList className="bg-[#1A1A1A] p-1 w-full grid grid-cols-3">
+                  <TabsList className="bg-[#0F0F0F] p-1 w-full grid grid-cols-3 rounded-md">
                     <TabsTrigger
                       value="fixed"
-                      className="data-[state=active]:bg-primary data-[state=active]:text-white"
+                      className="data-[state=active]:bg-[#1A1A1A] data-[state=active]:text-white rounded-md"
                     >
                       Fixed Price
                     </TabsTrigger>
                     <TabsTrigger
                       value="timed"
-                      className="data-[state=active]:bg-primary data-[state=active]:text-white"
+                      className="data-[state=active]:bg-[#1A1A1A] data-[state=active]:text-white rounded-md"
                     >
                       Timed Auction
                     </TabsTrigger>
-                    <TabsTrigger value="open" className="data-[state=active]:bg-primary data-[state=active]:text-white">
+                    <TabsTrigger value="open" className="data-[state=active]:bg-[#1A1A1A] data-[state=active]:text-white rounded-md">
                       Open for Bids
                     </TabsTrigger>
                   </TabsList>
@@ -341,7 +341,7 @@ export default function CreateItemPage() {
               </div>
 
               {/* Submit */}
-              <div className="pt-4 border-t border-[#2A2A2A] flex flex-col sm:flex-row gap-4 justify-end">
+              <div className="pt-6 border-t border-[#2A2A2A] flex flex-col sm:flex-row gap-4 justify-end">
                 <Button variant="outline" className="border-[#2A2A2A]">
                   Save as Draft
                 </Button>

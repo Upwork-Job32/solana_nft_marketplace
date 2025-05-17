@@ -76,16 +76,16 @@ export default function AuthorPage({ params }: { params: { username: string } })
         <div className="relative -mt-16 md:-mt-20 mb-8">
           <div className="flex flex-col md:flex-row gap-6 md:items-end">
             <div className="relative z-10">
-              <div className="w-32 h-32 md:w-40 md:h-40 rounded-xl overflow-hidden border-4 border-[#0F0F0F] bg-[#0F0F0F]">
+              <div className="w-32 h-32 md:w-40 md:h-40 rounded-xl overflow-hidden border-4 border-[#2A2A2A] bg-[#0F0F0F]">
                 <Image src={author.avatar || "/placeholder.svg"} alt={author.name} fill className="object-cover" />
               </div>
             </div>
             <div className="flex-1 flex flex-col md:flex-row justify-between gap-4">
-              <div>
+              <div className="flex flex-col">
                 <h1 className="text-2xl md:text-3xl font-bold font-poppins">{author.name}</h1>
                 <div className="flex items-center gap-2 mt-1">
                   <span className="text-white/70">@{author.username}</span>
-                  <div className="flex items-center gap-1 bg-[#1A1A1A] rounded-full px-2 py-1">
+                  <div className="flex items-center gap-1 bg-[#1A1A1A] rounded-lg px-3 py-1">
                     <span className="text-xs truncate max-w-[100px] md:max-w-[150px]">
                       {author.walletAddress.substring(0, 6)}...
                       {author.walletAddress.substring(author.walletAddress.length - 4)}
@@ -100,10 +100,8 @@ export default function AuthorPage({ params }: { params: { username: string } })
                   </div>
                 </div>
               </div>
-              <div className="flex gap-3">
-                <Button variant="outline" className="border-[#2A2A2A] h-10 px-4">
-                  <MoreHorizontal className="h-5 w-5" />
-                </Button>
+              <div className="flex flex-col items-start md:items-end gap-3">
+                <p className="text-white/70 text-sm">500 followers</p>
                 <Button className="bg-primary hover:bg-primary/90 h-10 px-6">Follow</Button>
               </div>
             </div>
@@ -172,19 +170,24 @@ export default function AuthorPage({ params }: { params: { username: string } })
         {/* Tabs */}
         <Tabs defaultValue="created" onValueChange={setActiveTab} className="mt-8">
           <TabsList className="bg-[#1A1A1A] p-1">
-            <TabsTrigger value="created" className="data-[state=active]:bg-primary data-[state=active]:text-white">
+            <TabsTrigger value="on_sale" className="data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none">
+              On Sale
+            </TabsTrigger>
+            <TabsTrigger value="created" className="data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none">
               Created
             </TabsTrigger>
-            <TabsTrigger value="collected" className="data-[state=active]:bg-primary data-[state=active]:text-white">
-              Collected
-            </TabsTrigger>
-            <TabsTrigger value="collections" className="data-[state=active]:bg-primary data-[state=active]:text-white">
-              Collections
-            </TabsTrigger>
-            <TabsTrigger value="activity" className="data-[state=active]:bg-primary data-[state=active]:text-white">
-              Activity
+            <TabsTrigger value="liked" className="data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none">
+              Liked
             </TabsTrigger>
           </TabsList>
+
+          <TabsContent value="on_sale" className="mt-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {nfts.map((nft) => (
+                <NFTCard key={nft.id} {...nft} />
+              ))}
+            </div>
+          </TabsContent>
 
           <TabsContent value="created" className="mt-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -194,94 +197,18 @@ export default function AuthorPage({ params }: { params: { username: string } })
             </div>
           </TabsContent>
 
-          <TabsContent value="collected" className="mt-6">
+          <TabsContent value="liked" className="mt-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {nfts.slice(0, 4).map((nft) => (
                 <NFTCard key={nft.id} {...nft} />
               ))}
             </div>
           </TabsContent>
-
-          <TabsContent value="collections" className="mt-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {collections.map((collection) => (
-                <CollectionCard key={collection.id} {...collection} />
-              ))}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="activity" className="mt-6">
-            <div className="bg-[#1A1A1A] rounded-xl overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-[#2A2A2A]">
-                      <th className="px-4 py-3 text-left text-sm font-medium text-white/70">Event</th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-white/70">Item</th>
-                      <th className="px-4 py-3 text-right text-sm font-medium text-white/70">Price</th>
-                      <th className="px-4 py-3 text-right text-sm font-medium text-white/70">From</th>
-                      <th className="px-4 py-3 text-right text-sm font-medium text-white/70">To</th>
-                      <th className="px-4 py-3 text-right text-sm font-medium text-white/70">Time</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {[
-                      {
-                        event: "Sale",
-                        item: "Cosmic Perspective #31",
-                        price: "1.5 ETH",
-                        from: author.username,
-                        to: "collector123",
-                        time: "2 hours ago",
-                      },
-                      {
-                        event: "Mint",
-                        item: "Cosmic Perspective #32",
-                        price: "",
-                        from: "",
-                        to: author.username,
-                        time: "1 day ago",
-                      },
-                      {
-                        event: "List",
-                        item: "Cosmic Perspective #33",
-                        price: "2.0 ETH",
-                        from: author.username,
-                        to: "",
-                        time: "2 days ago",
-                      },
-                      {
-                        event: "Offer",
-                        item: "Cosmic Perspective #34",
-                        price: "1.2 ETH",
-                        from: "bidder456",
-                        to: author.username,
-                        time: "3 days ago",
-                      },
-                    ].map((activity, i) => (
-                      <tr key={i} className="border-b border-[#2A2A2A] hover:bg-[#2A2A2A]/30">
-                        <td className="px-4 py-4">{activity.event}</td>
-                        <td className="px-4 py-4">
-                          <Link href={`/item/${i + 1}`} className="hover:text-primary">
-                            {activity.item}
-                          </Link>
-                        </td>
-                        <td className="px-4 py-4 text-right">{activity.price || "-"}</td>
-                        <td className="px-4 py-4 text-right">{activity.from || "-"}</td>
-                        <td className="px-4 py-4 text-right">{activity.to || "-"}</td>
-                        <td className="px-4 py-4 text-right">{activity.time}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </TabsContent>
         </Tabs>
 
         {activeTab !== "activity" && (
           <div className="mt-8 flex justify-center">
-            <Button variant="outline" className="border-[#2A2A2A]">
+            <Button variant="outline" className="border-primary text-white hover:bg-primary/10">
               Load More
             </Button>
           </div>
