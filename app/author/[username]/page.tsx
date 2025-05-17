@@ -13,8 +13,8 @@ import CollectionCard from "@/components/collection-card"
 const author = {
   username: "cosmicartist",
   name: "Cosmic Artist",
-  avatar: "/placeholder.svg?height=120&width=120",
-  banner: "/placeholder.svg?height=400&width=1200",
+  avatar: "/products/phon4.png",
+  banner: "/products/store3.jpg",
   bio: "Digital artist exploring the intersection of space, time, and consciousness through vibrant NFT collections.",
   walletAddress: "0x1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0",
   socials: {
@@ -33,7 +33,7 @@ const author = {
 const nfts = Array.from({ length: 8 }).map((_, i) => ({
   id: `${i + 1}`,
   name: `Cosmic Perspective #${i + 31}`,
-  image: "/placeholder.svg?height=400&width=400",
+  image: `/products/${i % 4 === 0 ? '1.jpg' : i % 4 === 1 ? '10.jpg' : i % 4 === 2 ? '123.png' : '04.png'}`,
   price: (Math.random() * 3 + 0.5).toFixed(2),
   currency: "ETH",
   creator: {
@@ -46,7 +46,7 @@ const nfts = Array.from({ length: 8 }).map((_, i) => ({
 const collections = Array.from({ length: 3 }).map((_, i) => ({
   id: `${i + 1}`,
   name: `Cosmic Collection ${i + 1}`,
-  image: "/placeholder.svg?height=300&width=400",
+  image: `/products/${i % 3 === 0 ? 'carousel-2.jpg' : i % 3 === 1 ? 'detail.jpg' : 'carousel-3.jpg'}`,
   creator: {
     name: author.username,
     avatar: author.avatar,

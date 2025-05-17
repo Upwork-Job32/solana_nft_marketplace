@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils"
 const nfts = Array.from({ length: 12 }).map((_, i) => ({
   id: `${i + 1}`,
   name: `Cosmic Perspective #${i + 31}`,
-  image: "/placeholder.svg?height=400&width=400",
+  image: `/products/${i % 4 === 0 ? '1.jpg' : i % 4 === 1 ? '10.jpg' : i % 4 === 2 ? '123.png' : '04.png'}`,
   price: (Math.random() * 3 + 0.5).toFixed(2),
   currency: "ETH",
   creator: {

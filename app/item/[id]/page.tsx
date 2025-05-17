@@ -14,7 +14,7 @@ const nft = {
   name: "Cosmic Perspective #31",
   description:
     "A stunning digital artwork that explores the vastness of space and our place within it. This piece is part of the 'Cosmic Perspective' collection, which aims to evoke a sense of wonder and contemplation about the universe.",
-  image: "/placeholder.svg?height=600&width=600",
+  image: "/products/img_mit_arm.jpg",
   price: "1.5",
   currency: "ETH",
   creator: {
@@ -59,7 +59,7 @@ const nft = {
 const similarNFTs = Array.from({ length: 4 }).map((_, i) => ({
   id: `${i + 2}`,
   name: `Cosmic Perspective #${i + 32}`,
-  image: "/placeholder.svg?height=400&width=400",
+  image: `/products/${i % 4 === 0 ? '1.jpg' : i % 4 === 1 ? '10.jpg' : i % 4 === 2 ? '123.png' : '04.png'}`,
   price: (Math.random() * 3 + 0.5).toFixed(2),
   currency: "ETH",
   creator: {
@@ -92,7 +92,7 @@ export default function ItemDetailPage({ params }: { params: { id: string } }) {
           {/* Right column - Details */}
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <Link href={`/collection/${nft.collection.name}`} className="text-sm text-white/70 hover:text-white">
+              <Link href={`/explore?collection=${nft.collection.name.toLowerCase().replace(/\s+/g, "-")}`} className="text-sm text-white/70 hover:text-white">
                 {nft.collection.name} Collection
                 {nft.collection.verified && <span className="inline-block ml-1 bg-primary rounded-full w-4 h-4"></span>}
               </Link>
@@ -109,7 +109,7 @@ export default function ItemDetailPage({ params }: { params: { id: string } }) {
             <h1 className="text-3xl font-bold font-poppins">{nft.name}</h1>
 
             <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
+              <Link href={`/author/${nft.creator.name}`} className="flex items-center gap-2">
                 <Image
                   src={nft.creator.avatar || "/placeholder.svg"}
                   alt={nft.creator.name}
@@ -121,8 +121,8 @@ export default function ItemDetailPage({ params }: { params: { id: string } }) {
                   <p className="text-xs text-white/70">Creator</p>
                   <p className="text-sm font-medium">@{nft.creator.name}</p>
                 </div>
-              </div>
-              <div className="flex items-center gap-2">
+              </Link>
+              <Link href={`/author/${nft.owner.name}`} className="flex items-center gap-2">
                 <Image
                   src={nft.owner.avatar || "/placeholder.svg"}
                   alt={nft.owner.name}
@@ -134,7 +134,7 @@ export default function ItemDetailPage({ params }: { params: { id: string } }) {
                   <p className="text-xs text-white/70">Owner</p>
                   <p className="text-sm font-medium">@{nft.owner.name}</p>
                 </div>
-              </div>
+              </Link>
             </div>
 
             <div className="flex items-center gap-4 text-sm">
@@ -266,9 +266,11 @@ export default function ItemDetailPage({ params }: { params: { id: string } }) {
         <div className="mt-16">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-xl font-bold font-poppins">More from this collection</h2>
-            <Button variant="outline" className="border-primary text-white hover:bg-primary/10">
-              View Collection
-            </Button>
+            <Link href={`/explore?collection=${nft.collection.name.toLowerCase().replace(/\s+/g, "-")}`}>
+              <Button variant="outline" className="border-primary text-white hover:bg-primary/10">
+                View Collection
+              </Button>
+            </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {similarNFTs.map((nft) => (

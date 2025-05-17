@@ -65,14 +65,16 @@ export default function NFTCard({ id, name, image, price, currency, creator, lik
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <Image
-            src={creator.avatar || "/placeholder.svg"}
-            alt={creator.name}
-            width={24}
-            height={24}
-            className="rounded-full"
-          />
-          <span className="text-xs text-white/70">@{creator.name}</span>
+          <Link href={`/author/${creator.name}`} className="flex items-center gap-2">
+            <Image
+              src={creator.avatar || "/placeholder.svg"}
+              alt={creator.name}
+              width={24}
+              height={24}
+              className="rounded-full"
+            />
+            <span className="text-xs text-white/70">@{creator.name}</span>
+          </Link>
         </div>
         <div className="flex items-center justify-between pt-2 border-t border-[#2A2A2A]">
           <div>
