@@ -1,3 +1,5 @@
+"use client"
+
 import Image from "next/image"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
@@ -16,8 +18,7 @@ interface CollectionCardProps {
 
 export default function CollectionCard({ id, name, image, creator, itemCount, className }: CollectionCardProps) {
   return (
-    <Link
-      href={`/collection/${id}`}
+    <div
       className={cn("block bg-[#1A1A1A] rounded-xl overflow-hidden card-hover-effect", className)}
     >
       <div className="relative">
@@ -45,6 +46,6 @@ export default function CollectionCard({ id, name, image, creator, itemCount, cl
       <div className="p-4">
         <h3 className="font-medium">{name}</h3>
       </div>
-    </Link>
+    </div>
   )
 }

@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Search, Menu, X, Plus } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { usePathname } from "next/navigation"
+import { usePrivy, useLogin } from "@privy-io/react-auth"
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -20,7 +21,20 @@ export default function Header() {
 
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+  }, []);
+
+  const { login } = useLogin();
+  const { user, ready, authenticated } = usePrivy();
+  console.log("user", user)
+  console.log("ready", ready)
+  console.log("authenticated", authenticated)
+
+  const handleSocialLogin = () => {
+    login({
+      loginMethods: ['email', 'google'],
+      walletChainType: 'solana-only'
+    });
+  };
 
   return (
     <header
@@ -82,17 +96,17 @@ export default function Header() {
               className="w-[240px] pl-9 bg-[#1A1A1A] border-none rounded-full h-9 focus-visible:ring-primary"
             />
           </div>
-          <Link href="/create-item">
-            <Button variant="outline" size="sm" className="border-primary text-white hover:bg-primary/10">
-              <Plus className="h-4 w-4 mr-1" />
-              Create
+          <Button variant="outline" size="sm" className="border-primary text-white hover:bg-primary/10">
+            <Plus className="h-4 w-4 mr-1" />
+            Create
+          </Button>
+          {!authenticated ? (
+            <Button variant="outline" onClick={handleSocialLogin} className="border-primary text-white hover:bg-primary/10">
+              Login
             </Button>
-          </Link>
-          <Link href="/wallet">
-            <Button variant="outline" className="border-primary text-white hover:bg-primary/10">
-              Connect Wallet
-            </Button>
-          </Link>
+          ) : (
+            <></>
+          )}
         </div>
         <button className="flex md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
           {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -151,11 +165,15 @@ export default function Header() {
                 Create
               </Button>
             </Link>
-            <Link href="/wallet" className="w-full" onClick={() => setIsMenuOpen(false)}>
-              <Button variant="outline" className="w-full border-primary text-white hover:bg-primary/10">
-                Connect Wallet
-              </Button>
-            </Link>
+            {!authenticated ? (
+              <Link href="/wallet" className="w-full" onClick={() => setIsMenuOpen(false)}>
+                <Button variant="outline" className="w-full border-primary text-white hover:bg-primary/10">
+                  Login
+                </Button>
+              </Link>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </div>

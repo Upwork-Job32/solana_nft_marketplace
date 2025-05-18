@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -67,10 +67,11 @@ export default function WalletPage() {
     setSelectedWallet(null)
   }
 
+
   return (
-    <div className="min-h-screen">
-      <div className="container px-4 py-8 md:px-6 md:py-12">
-        <div className="max-w-2xl mx-auto">
+      <div className="min-h-screen">
+        <div className="container px-4 py-8 md:px-6 md:py-12">
+          <div className="max-w-2xl mx-auto">
           <div className="flex flex-col gap-4 mb-8 text-center">
             <h1 className="text-3xl font-bold font-poppins">Connect Wallet</h1>
             <p className="text-white/70 mx-auto max-w-md">
