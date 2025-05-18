@@ -6,7 +6,7 @@ import Link from "next/link"
 import { Heart } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-
+import { buyProductAPI } from "@/api/productAPI"
 interface NFTCardProps {
   id: string
   name: string
@@ -23,7 +23,13 @@ interface NFTCardProps {
 
 export default function NFTCard({ id, name, image, price, currency, creator, likes, className }: NFTCardProps) {
   const [isHovered, setIsHovered] = useState(false)
-  const [isLiked, setIsLiked] = useState(false)
+  const [isLiked, setIsLiked] = useState(false);
+
+  const buyProduct = async () => {
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const result = await buyProductAPI({ id, name, image, price, currency, creator, likes, className }, { email: user?.email.address, walletAddress: user?.wallet.address });
+    console.log("👥👥👥result", result);
+  }
 
   return (
     <div
@@ -61,7 +67,7 @@ export default function NFTCard({ id, name, image, price, currency, creator, lik
           <h3 className="font-medium truncate">{name}</h3>
           <div className="flex items-center gap-1 text-xs text-white/70">
             <Heart className={cn("h-3 w-3", isLiked ? "fill-primary text-primary" : "fill-white/70 text-white/70")} />
-            <span>{isLiked ? likes + 1 : likes}</span>
+            <p>{isLiked ? likes + 1 : likes}</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -83,7 +89,7 @@ export default function NFTCard({ id, name, image, price, currency, creator, lik
               {price} <span className="text-white/70">{currency}</span>
             </p>
           </div>
-          <Button variant="outline" size="sm" className="border-primary text-white hover:bg-primary/10">
+          <Button onClick={buyProduct} variant="outline" size="sm" className="border-primary text-white hover:bg-primary/10">
             Buy Now
           </Button>
         </div>

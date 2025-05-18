@@ -8,6 +8,7 @@ import { Search, Menu, X, Plus } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { usePathname } from "next/navigation"
 import { usePrivy, useLogin } from "@privy-io/react-auth"
+import { addUser } from "@/api/userAPI"
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -25,16 +26,23 @@ export default function Header() {
 
   const { login } = useLogin();
   const { user, ready, authenticated } = usePrivy();
-  console.log("user", user)
-  console.log("ready", ready)
-  console.log("authenticated", authenticated)
 
-  const handleSocialLogin = () => {
+
+  const handleSocialLogin = async () => {
     login({
-      loginMethods: ['email', 'google'],
+      loginMethods: ['email'],
       walletChainType: 'solana-only'
     });
+    
   };
+
+  useEffect(() => {
+    if (ready && authenticated) {
+      handleSocialLogin();
+      addUser(user);
+      localStorage.setItem("user", JSON.stringify(user));
+    }
+  }, [ready, authenticated]);
 
   return (
     <header
